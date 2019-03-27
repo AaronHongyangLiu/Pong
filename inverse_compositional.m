@@ -26,5 +26,5 @@ function p = inverse_compositional(img, T, x, y, r, H, dT)
             break
         end
     end
-
+    p = p';
 end
