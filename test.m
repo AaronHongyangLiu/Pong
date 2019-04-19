@@ -17,8 +17,9 @@ p5 = [471,1006];
 % Note:
 % rp1 to rp5 are set at the start of the game
 % p1 to p5 will be the tracked points, and are changing each frame
+%
 % Suppose: x is a point on player photo and x_prime is a point on the game window
-%          x_prime = H*x
+% then   : x_prime = H*x
 % 
 % maybe we could use this inv(H) to determine if a point is inside the
 % player photo (aka the paddle)
