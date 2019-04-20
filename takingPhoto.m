@@ -22,11 +22,19 @@ function [photo1, photo2] = takingPhoto()
     
     frame = snapshot(cam); 
     subplot(2,2,1); im = image(zeros(size(frame),'uint8')); 
+    im = snapshot(cam);
+    subplot(2,2,1);
     
-%     preview(cam, im);
-
+    t = timer('ExecutionMode', 'fixedRate', 'TimerFcn', @updateScreen, 'Period',1);
+    start(t)
     waitfor(fig);
     
+    function updateScreen(obj, event, text_arg)
+        img=snapshot(cam);
+        subplot(2,2,1);
+        imshow(img);
+    end
+%     
     function changeP1(src, event)
         if src.Value
             img = snapshot(cam);
@@ -48,7 +56,9 @@ function [photo1, photo2] = takingPhoto()
     function changeP3(src, event)
         if src.Value
 %             closePreview(cam)
-            close(fig)
+            stop(t);
+            clear cam;
+            close(fig);
         end
     end
 end
