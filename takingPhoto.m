@@ -23,7 +23,7 @@ function [photo1, photo2] = takingPhoto()
     frame = snapshot(cam); 
     subplot(2,2,1); im = image(zeros(size(frame),'uint8')); 
     
-    preview(cam, im);
+%     preview(cam, im);
 
     waitfor(fig);
     
@@ -47,7 +47,8 @@ function [photo1, photo2] = takingPhoto()
 
     function changeP3(src, event)
         if src.Value
-            closePreview(cam)
+%             closePreview(cam)
+            close(fig)
         end
     end
 end
