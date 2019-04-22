@@ -8,7 +8,7 @@ for i = 1:pHeight
         d = H*[i;j;1];
         d = round(d./d(3));
         
-        if d(1) > 0 & d(2) > 0
+        if d(1) > 0 & d(2) > 0 & d(1) < size(gamePhoto, 1) & d(2) < size(gamePhoto, 2)
             newPhoto(d(1),d(2)) = playerPhoto(i,j);
     end
 end

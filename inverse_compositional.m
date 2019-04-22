@@ -22,6 +22,8 @@ function p = inverse_compositional(img, T, x, y, r, H, dT)
         end
         % Update warp parameters to warp of inverse warp (-dp) of dp
         p = p - dp;
+        p = max(p, r-[x,y]'+1); % Ensure tracked regions don't move off top or left of screen
+        p = min(p, flip(size(img)')-[x,y]'-r); % bottom or right of screen
         if sum(sum(abs(dp))) < 0.1
             break
         end

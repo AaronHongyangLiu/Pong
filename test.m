@@ -11,7 +11,7 @@ p4 = [433,1082];
 p5 = [471,1006];
 
 %% calculate the corrisponding point on the player photo
-[rp1,rp2,rp3,rp4,rp5] = rescaleImage(photo1, p1, p2,p3,p4,p5);
+[rp1,rp2,rp3,rp4,rp5] = rescaleImage(photo1, p1,p2,p3,p4,p5);
 
 %% For each frame, get 5 points (i.e. p1 to p2), calculate H
 % Note:
