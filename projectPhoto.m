@@ -25,8 +25,8 @@ Ai = [[0 0 0], -w_p*X', y_p*X';...
     -y_p*X', x_p*X', [0 0 0];];
 A = [];
 for i=1:5
-    x_actual = T * [c_pts(2*i-1 : 2*i) 1]'
-    x_p_actual = T_prime * [t_pts(2*i-1 : 2*i) 1]'
+    x_actual = T * [c_pts(2*i-1 : 2*i) 1]';
+    x_p_actual = T_prime * [t_pts(2*i-1 : 2*i) 1]';
     A = [A; double(subs(Ai, {x,y,w,x_p,y_p,w_p}, {x_actual(1),x_actual(2),x_actual(3),x_p_actual(1),x_p_actual(2),x_p_actual(3) }))];
 end
 [U, D, V] = svd(A);

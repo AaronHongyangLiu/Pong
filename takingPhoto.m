@@ -25,7 +25,7 @@ function [photo1, photo2] = takingPhoto()
     im = snapshot(cam);
     subplot(2,2,1);
     
-    t = timer('ExecutionMode', 'fixedRate', 'TimerFcn', @updateScreen, 'Period',1);
+    t = timer('ExecutionMode', 'fixedRate', 'TimerFcn', @updateScreen, 'Period',0.2);
     start(t)
     waitfor(fig);
     
