@@ -6,13 +6,16 @@ clear cam
 close all
 clc
 
+projection = false;
 delay = 0;
 pts_per_hand = 5;
 frames = 300;
 r = 20; % radius of square template (half of edge length)
 
 % Get projection images (eg faces)
-[photoL, photoR] = takingPhoto();
+if projection
+    [photoL, photoR] = takingPhoto();
+end
 
 % Initialize webcam
 clear cam
@@ -39,22 +42,25 @@ rp3 = [right_y(3), right_x(3)];
 rp4 = [right_y(4), right_x(4)];
 rp5 = [right_y(5), right_x(5)];
 
-% Rescale 
-[re_lp1,re_lp2,re_lp3,re_lp4,re_lp5] = rescaleImage(photoL, lp1,lp2,lp3,lp4,lp5);
-[re_rp1,re_rp2,re_rp3,re_rp4,re_rp5] = rescaleImage(photoR, rp1,rp2,rp3,rp4,rp5);
+if projection
+    % Rescale 
+    [re_lp1,re_lp2,re_lp3,re_lp4,re_lp5] = rescaleImage(photoL, lp1,lp2,lp3,lp4,lp5);
+    [re_rp1,re_rp2,re_rp3,re_rp4,re_rp5] = rescaleImage(photoR, rp1,rp2,rp3,rp4,rp5);
 
-% Get homography
-HL = projectPhoto(imga, photoL, lp1,lp2,lp3,lp4,lp5,re_lp1,re_lp2,re_lp3,re_lp4,re_lp5);
-HR = projectPhoto(imga, photoR, rp1,rp2,rp3,rp4,rp5,re_rp1,re_rp2,re_rp3,re_rp4,re_rp5);
+    % Get homography
+    HL = projectPhoto(imga, photoL, lp1,lp2,lp3,lp4,lp5,re_lp1,re_lp2,re_lp3,re_lp4,re_lp5);
+    HR = projectPhoto(imga, photoR, rp1,rp2,rp3,rp4,rp5,re_rp1,re_rp2,re_rp3,re_rp4,re_rp5);
 
-% Draw homography image overtop
-imga = projectPoint(HL, photoL, imga);
-imga = projectPoint(HR, photoR, imga);
-imshow(imga)
+    % Draw homography image overtop
+    imga = projectPoint(HL, photoL, imga);
+    imga = projectPoint(HR, photoR, imga);
+    imshow(imga)
+end
 
 % Initialize pong game
 ball = flip(size(imga)'/2);
-speed = [8;8];
+% speed = [8;8];
+speed = (rand(2,1)-0.5)*16;
 ball_rad = 30;
 plot(ball(1), ball(2), 'b.', 'MarkerSize', ball_rad)
 hold off;
@@ -83,13 +89,15 @@ for i = 2:frames
     rp4 = [y(9)+p(9,2), x(9)+p(9,1)];
     rp5 = [y(10)+p(10,2), x(10)+p(10,1)];
     
-    % Get homography
-    HL = projectPhoto(img, photoL, lp1,lp2,lp3,lp4,lp5,re_lp1,re_lp2,re_lp3,re_lp4,re_lp5);
-    HR = projectPhoto(img, photoR, rp1,rp2,rp3,rp4,rp5,re_rp1,re_rp2,re_rp3,re_rp4,re_rp5);
+    if projection
+        % Get homography
+        HL = projectPhoto(img, photoL, lp1,lp2,lp3,lp4,lp5,re_lp1,re_lp2,re_lp3,re_lp4,re_lp5);
+        HR = projectPhoto(img, photoR, rp1,rp2,rp3,rp4,rp5,re_rp1,re_rp2,re_rp3,re_rp4,re_rp5);
 
-    % Draw homography image overtop
-    img = projectPoint(HL, photoL, img);
-    img = projectPoint(HR, photoR, img);
+        % Draw homography image overtop
+        img = projectPoint(HL, photoL, img);
+        img = projectPoint(HR, photoR, img);
+    end
 
     imshow(img);
     hold on;
@@ -97,7 +105,7 @@ for i = 2:frames
     % pong_update
     [ball, speed, x, y] = pong_update(ball, speed, ball_rad, x, y, p, size(imga));
     
-    plot(ball(1), ball(2), 'b.', 'MarkerSize', ball_rad)
+    plot(ball(1), ball(2), 'r.', 'MarkerSize', ball_rad)
     plot(x, y, 'b.', 'MarkerSize',20)
     % Draw homography image overtop
     

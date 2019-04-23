@@ -11,10 +11,10 @@ function [ball, speed, x, y] = pong_update(ball, speed, r, x, y, p, im_dim)
     % Ball hits end wall (GOAL)
     if ball(1) < r
         ball = flip(im_dim'/2);
-        speed = [8;8];
+        speed = (rand(2,1)-0.5)*16;
     elseif ball(1) > im_dim(2) - r
         ball = flip(im_dim'/2);
-        speed = [8;8];
+        speed = (rand(2,1)-0.5)*16;
         
     % Ball hits border wall wall
     elseif ball(2) < 0
